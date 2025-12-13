@@ -1,30 +1,1200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="transitions.css">
-    <title>物价查询 —— Dream World Minecraft 服务器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Dream World —— 玩家指令手册</title>
+    <style>
+        /* 使用现有网页的设计变量和样式 */
+        :root {
+            --primary-color: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary-color: #2196F3;
+            --accent-color: #FF9800;
+            --dark-color: #2C3E50;
+            --light-color: #ECF0F1;
+            --danger-color: #E74C3C;
+            --warning-color: #F39C12;
+            --success-color: #27AE60;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=');
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background-color: var(--dark-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 1rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        nav ul li a i {
+            font-size: 1.2rem;
+        }
+        
+        /* 当前页面激活状态 */
+        nav ul li a.active {
+            background-color: var(--primary-color);
+        }
+        
+        /* 主内容区域 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .main-title {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-size: 3.2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            color: #555;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        /* 指令分类筛选器 */
+        .plugin-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            color: var(--dark-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 指令分类卡片 */
+        .command-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards;
+            text-align: left;
+        }
+        
+        .command-section:nth-child(1) { animation-delay: 0.1s; }
+        .command-section:nth-child(2) { animation-delay: 0.2s; }
+        .command-section:nth-child(3) { animation-delay: 0.3s; }
+        .command-section:nth-child(4) { animation-delay: 0.4s; }
+        .command-section:nth-child(5) { animation-delay: 0.5s; }
+        .command-section:nth-child(6) { animation-delay: 0.6s; }
+        
+        .command-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .section-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-top: 0.3rem;
+        }
+        
+        /* 指令表格样式 */
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .command-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-color);
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .command-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .command-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .command-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .command-name {
+            font-family: 'Courier New', monospace;
+            color: var(--secondary-color);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .command-aliases {
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .command-desc {
+            color: #555;
+        }
+        
+        .command-usage {
+            font-family: 'Courier New', monospace;
+            background-color: #f8f9fa;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #444;
+        }
+        
+        .param {
+            color: var(--danger-color);
+            font-weight: 500;
+        }
+        
+        .optional {
+            color: var(--warning-color);
+        }
+        
+        /* 权限表样式 */
+        .permissions-table {
+            margin-top: 2rem;
+        }
+        
+        .permission-category {
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-top: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .permission-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .permission-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .permission-desc {
+            color: #666;
+            text-align: right;
+        }
+        
+        /* 提示框 */
+        .note-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .note-content {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .update-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul li a {
+                justify-content: center;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .plugin-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .command-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .command-section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Minecraft主题装饰 */
+        .minecraft-block {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            position: relative;
+            margin: 0 5px;
+            transform: rotate(45deg);
+        }
+        
+        .minecraft-block::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-dark);
+            border-radius: 2px;
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="https://www.dreamworld.eu.org">主页</a></li>
-                <li><a href="https://rules.dreamworld.eu.org">玩家守则</a></li>
-                <li><a href="https://price.dreamworld.eu.org">物价查询</a></li>
-                <li><a href="https://residence.dreamworld.eu.org">公共领地</a></li>
-                <li><a href="https://opinfo.dreamworld.eu.org">OP信息</a></li>
+                <li><a href="https://www.dreamworld.eu.org"><i class="fas fa-home"></i> 主页</a></li>
+                <li><a href="https://rules.dreamworld.eu.org"><i class="fas fa-book"></i> 玩家守则</a></li>
+                <li><a href="#" class="active"><i class="fas fa-terminal"></i> 指令手册</a></li>
+                <li><a href="https://price.dreamworld.eu.org"><i class="fas fa-tags"></i> 物价查询</a></li>
+                <li><a href="https://residence.dreamworld.eu.org"><i class="fas fa-map-marked-alt"></i> 公共领地</a></li>
+                <li><a href="https://opinfo.dreamworld.eu.org"><i class="fas fa-user-shield"></i> OP信息</a></li>
             </ul>
         </nav>
     </header>
     
     <main>
-        <h1 class="main-title">物价查询</h1>
-        <div class="content">
-            <!-- 物价查询的内容 -->
+        <h1 class="main-title">玩家指令手册 <span class="minecraft-block"></span></h1>
+        
+        <p class="subtitle">本页面整理了Dream World服务器中玩家可使用的所有指令。按照插件分类，便于快速查找和学习。点击下方分类按钮可快速跳转到对应部分。</p>
+        
+        <div class="plugin-filter">
+            <button class="filter-btn active" data-filter="all"><i class="fas fa-list"></i> 全部指令</button>
+            <button class="filter-btn" data-filter="residence"><i class="fas fa-map-marked-alt"></i> 领地管理</button>
+            <button class="filter-btn" data-filter="essentials"><i class="fas fa-magic"></i> 基础功能</button>
+            <button class="filter-btn" data-filter="quickshop"><i class="fas fa-store"></i> 商店经济</button>
+            <button class="filter-btn" data-filter="multiverse"><i class="fas fa-globe"></i> 世界传送</button>
+            <button class="filter-btn" data-filter="authme"><i class="fas fa-user-lock"></i> 账户安全</button>
+            <button class="filter-btn" data-filter="coreprotect"><i class="fas fa-history"></i> 日志查询</button>
+        </div>
+        
+        <!-- Residence 指令 -->
+        <section id="residence" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">Residence - 领地管理</h2>
+                    <p class="section-subtitle">保护你的建筑和领地，管理权限与设置</p>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <div class="note-title">
+                    <i class="fas fa-info-circle"></i> 重要提示
+                </div>
+                <div class="note-content">
+                    领地是保护你建筑和财产的重要系统。使用木斧（默认工具）选择区域后，使用/res create创建领地。
+                    所有命令不写领地名时，默认为当前所在的领地。
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="25%">指令</th>
+                        <th width="15%">参数</th>
+                        <th width="60%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/res select</td>
+                        <td>[x] [y] [z]</td>
+                        <td class="command-desc">选择领地区域，X Y Z是从当前位置为中心的距离</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res select chunk</td>
+                        <td></td>
+                        <td class="command-desc">选取一整个chunk区域</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res select expand</td>
+                        <td>[格数]</td>
+                        <td class="command-desc">向你的前方延伸选区</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res select vert</td>
+                        <td></td>
+                        <td class="command-desc">把选区延伸到从天顶到地底</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res create</td>
+                        <td>[领地名]</td>
+                        <td class="command-desc">选择好区域后创建一个叫做[领地名]的领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res remove</td>
+                        <td>[领地名]</td>
+                        <td class="command-desc">移除一个叫[领地名]的领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res subzone</td>
+                        <td>&lt;领地名&gt; [子区域名]</td>
+                        <td class="command-desc">在领地内创建一块子区域，你必须是所有者才行</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res info</td>
+                        <td>[领地名]</td>
+                        <td class="command-desc">得到某领地的信息</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res list</td>
+                        <td></td>
+                        <td class="command-desc">显示你拥有的领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res current</td>
+                        <td></td>
+                        <td class="command-desc">显示你所在的领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res set</td>
+                        <td>[领地名] [权限] [true/false/remove]</td>
+                        <td class="command-desc">设置某领地的权限</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res pset</td>
+                        <td>[领地名] [玩家名] [权限] [true/false/remove]</td>
+                        <td class="command-desc">设置某领地对于某玩家的权限</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res gset</td>
+                        <td>[领地名] [群组名] [权限] [true/false/remove]</td>
+                        <td class="command-desc">设置某领地对于某群组的权限</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res give</td>
+                        <td>[领地名] [玩家名]</td>
+                        <td class="command-desc">将某领地赠与某玩家，你必须是领主且被赠予玩家在线</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res message</td>
+                        <td>[领地名] [enter/leave] [信息]</td>
+                        <td class="command-desc">设置进入/退出某领地时候显示的信息</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res tp</td>
+                        <td>[领地名]</td>
+                        <td class="command-desc">传送至某领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res tpset</td>
+                        <td></td>
+                        <td class="command-desc">设置当前领地的传送点为你站立的地方</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res market list</td>
+                        <td></td>
+                        <td class="command-desc">显示在售的所有领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res market buy</td>
+                        <td>[领地名]</td>
+                        <td class="command-desc">购买某领地</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/res market sell</td>
+                        <td>[领地名] [价格]</td>
+                        <td class="command-desc">将某领地出售</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note-box">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i> 常用权限说明
+                </div>
+                <div class="note-content">
+                    <strong>build</strong> - 建造权限(包括destroy和place) | 
+                    <strong>container</strong> - 是否能使用箱子，发射器等 | 
+                    <strong>use</strong> - 使用权限(工作台，炉子等) | 
+                    <strong>tp</strong> - 传送权限 | 
+                    <strong>move</strong> - 进入权限 | 
+                    <strong>pvp</strong> - 设置是否能PVP
+                </div>
+            </div>
+        </section>
+        
+        <!-- EssentialsX 指令 -->
+        <section id="essentials" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">EssentialsX - 基础功能</h2>
+                    <p class="section-subtitle">玩家日常使用的传送、家园、经济等功能</p>
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="25%">指令</th>
+                        <th width="15%">别名</th>
+                        <th width="60%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/home [家名称]</td>
+                        <td></td>
+                        <td class="command-desc">传送到你的家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/sethome [家名称]</td>
+                        <td></td>
+                        <td class="command-desc">设置你的家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/delhome [家名称]</td>
+                        <td></td>
+                        <td class="command-desc">删除你的家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/warp [传送点名称]</td>
+                        <td></td>
+                        <td class="command-desc">传送到公共传送点</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/tpa &lt;玩家名&gt;</td>
+                        <td></td>
+                        <td class="command-desc">请求传送到某玩家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/tpahere &lt;玩家名&gt;</td>
+                        <td></td>
+                        <td class="command-desc">请求某玩家传送到你</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/tpaccept</td>
+                        <td>/tpac</td>
+                        <td class="command-desc">接受传送请求</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/tpdeny</td>
+                        <td>/tpno</td>
+                        <td class="command-desc">拒绝传送请求</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/spawn</td>
+                        <td></td>
+                        <td class="command-desc">传送到主城出生点</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/back</td>
+                        <td></td>
+                        <td class="command-desc">回到上一次死亡地点或传送地点</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/bal [玩家名]</td>
+                        <td>/balance, /money</td>
+                        <td class="command-desc">查看余额</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/pay &lt;玩家名&gt; &lt;金额&gt;</td>
+                        <td></td>
+                        <td class="command-desc">向玩家支付金额</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/msg &lt;玩家名&gt; &lt;信息&gt;</td>
+                        <td>/m, /tell, /whisper</td>
+                        <td class="command-desc">私聊某玩家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/r &lt;信息&gt;</td>
+                        <td>/reply</td>
+                        <td class="command-desc">回复最后私聊你的人</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/mail read</td>
+                        <td></td>
+                        <td class="command-desc">查看邮件</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/mail send &lt;玩家名&gt; &lt;信息&gt;</td>
+                        <td></td>
+                        <td class="command-desc">发送邮件</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/afk</td>
+                        <td></td>
+                        <td class="command-desc">标记自己为挂机状态</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/nick &lt;昵称&gt;</td>
+                        <td></td>
+                        <td class="command-desc">设置你的昵称</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/hat</td>
+                        <td></td>
+                        <td class="command-desc">将手中的物品戴在头上</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- QuickShop 指令 -->
+        <section id="quickshop" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">QuickShop - 商店经济</h2>
+                    <p class="section-subtitle">创建和管理商店，进行物品交易</p>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <div class="note-title">
+                    <i class="fas fa-info-circle"></i> 如何创建商店
+                </div>
+                <div class="note-content">
+                    1. 将一个箱子放在地上<br>
+                    2. 手持你要售卖或收购的物品，左击箱子<br>
+                    3. 在聊天栏中输入物品的价格<br>
+                    4. 将物品放入箱子中
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="30%">指令</th>
+                        <th width="70%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/qs unlimited</td>
+                        <td class="command-desc">将鼠标准星所对的商店库存设置为"无限"</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs setowner &lt;player&gt;</td>
+                        <td class="command-desc">将商店的所有人改为指定玩家</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs buy</td>
+                        <td class="command-desc">将鼠标准星所对的商店转变为收购商店</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs sell</td>
+                        <td class="command-desc">将鼠标准星所对的商店转变为出售商店</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs price &lt;price&gt;</td>
+                        <td class="command-desc">将鼠标准星所对的商店的交易价格修改为指定值</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs clean</td>
+                        <td class="command-desc">将所有库存数量为0的商店移除</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/qs find &lt;item&gt;</td>
+                        <td class="command-desc">找到(最近的)交易指定物品的商店，例如 '/qs find dia' 将会找到最近的交易钻石的商店</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/shop</td>
+                        <td class="command-desc">/qs的指令别名</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Multiverse-Core 指令 -->
+        <section id="multiverse" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">Multiverse-Core - 世界传送</h2>
+                    <p class="section-subtitle">在不同世界间传送和移动</p>
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="30%">指令</th>
+                        <th width="70%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/mv spawn [世界名]</td>
+                        <td class="command-desc">回到这一个世界的出生点</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/mv list</td>
+                        <td class="command-desc">查看已有世界列表</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/mv info [世界名]</td>
+                        <td class="command-desc">查看该世界的信息</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/mv help</td>
+                        <td class="command-desc">查看帮助列表</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- AuthMe 指令 -->
+        <section id="authme" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-user-lock"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">AuthMe - 账户安全</h2>
+                    <p class="section-subtitle">账户注册、登录和安全相关指令</p>
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="30%">指令</th>
+                        <th width="70%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/login &lt;password&gt;</td>
+                        <td class="command-desc">登录账户</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/register [password] [verifyPassword]</td>
+                        <td class="command-desc">注册账户</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/logout</td>
+                        <td class="command-desc">登出账户</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/changepassword &lt;oldPassword&gt; &lt;newPassword&gt;</td>
+                        <td class="command-desc">更改密码</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/unregister &lt;password&gt;</td>
+                        <td class="command-desc">解除账户注册</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/email show</td>
+                        <td class="command-desc">显示你当前的邮箱</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/email add &lt;email&gt; &lt;verifyEmail&gt;</td>
+                        <td class="command-desc">给你的账户添加一个新邮箱</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/email recover &lt;email&gt;</td>
+                        <td class="command-desc">重置你的账户，这将会向你的邮箱发送一封包含新密码的邮件</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/captcha &lt;captcha&gt;</td>
+                        <td class="command-desc">输入验证码完成验证</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- CoreProtect 指令 -->
+        <section id="coreprotect" class="command-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div>
+                    <h2 class="section-title">CoreProtect - 日志查询</h2>
+                    <p class="section-subtitle">查询方块操作和玩家行为记录</p>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <div class="note-title">
+                    <i class="fas fa-info-circle"></i> 使用说明
+                </div>
+                <div class="note-content">
+                    CoreProtect记录服务器的所有方块操作和玩家行为。玩家可以查询自己的操作记录，管理员可以查询全服记录。
+                    常用参数：u:用户 t:时间 r:范围 a:动作类型 i:包含的方块 e:排除的方块
+                </div>
+            </div>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th width="25%">指令</th>
+                        <th width="15%">别名</th>
+                        <th width="60%">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="command-name">/co help</td>
+                        <td></td>
+                        <td class="command-desc">显示命令列表</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/co inspect</td>
+                        <td>/co i</td>
+                        <td class="command-desc">切换检查模式。开启后，点击方块或实体可快速查看其变更历史</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/co lookup</td>
+                        <td>/co l</td>
+                        <td class="command-desc">查询数据。根据参数查询方块、交互等历史记录</td>
+                    </tr>
+                    <tr>
+                        <td class="command-name">/co near</td>
+                        <td></td>
+                        <td class="command-desc">执行附近查询。相当于 /co lookup r:5，查询玩家周围5格内的历史记录</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note-box">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i> 常用查询示例
+                </div>
+                <div class="note-content">
+                    <strong>/co lookup u:你的名字 t:1d</strong> - 查询你过去1天内的所有操作<br>
+                    <strong>/co lookup u:你的名字 a:block t:2h</strong> - 查询你过去2小时内所有方块操作<br>
+                    <strong>/co lookup i:diamond_ore a:-block t:6h</strong> - 查询过去6小时内被挖走的钻石矿记录<br>
+                    <strong>/co near</strong> - 查询你周围5格内的历史记录
+                </div>
+            </div>
+        </section>
+        
+        <div class="info-card" style="text-align: center; max-width: 800px; margin: 2rem auto;">
+            <div class="card-header" style="justify-content: center;">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h3 class="card-title">使用提示</h3>
+            </div>
+            <div class="card-content">
+                <p>1. 大部分指令可以使用Tab键自动补全，节省输入时间</p>
+                <p>2. 指令中的<strong>&lt;参数&gt;</strong>表示必填参数，<strong>[参数]</strong>表示可选参数</p>
+                <p>3. 如果遇到指令无法使用的情况，可能是权限不足或指令格式错误</p>
+                <p>4. 建议将常用指令添加至快捷栏或记忆快捷键</p>
+                <p>5. 更多问题可联系管理员或在QQ群中询问</p>
+            </div>
         </div>
     </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>Dream World Minecraft 服务器管理组</p>
+            <div class="footer-links">
+                <a href="https://www.dreamworld.eu.org"><i class="fas fa-home"></i> 主页</a>
+                <a href="https://rules.dreamworld.eu.org"><i class="fas fa-book"></i> 玩家守则</a>
+                <a href="#"><i class="fas fa-terminal"></i> 指令手册</a>
+                <a href="https://price.dreamworld.eu.org"><i class="fas fa-tags"></i> 物价查询</a>
+                <a href="https://residence.dreamworld.eu.org"><i class="fas fa-map-marked-alt"></i> 公共领地</a>
+                <a href="https://opinfo.dreamworld.eu.org"><i class="fas fa-user-shield"></i> OP信息</a>
+            </div>
+            <p class="update-info">
+                <i class="fas fa-clock"></i> 指令手册最后更新时间：2025.12.13 | 
+                <i class="fas fa-code"></i> 本页面持续更新中
+            </p>
+        </div>
+    </footer>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script>
+        // 页面加载完成后初始化
+        window.addEventListener("load", function() {
+            document.body.classList.add("loaded");
+            
+            // 为当前页面导航项添加活动状态
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.href.includes('#') || link.innerText.includes('指令手册')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // 分类筛选功能
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const commandSections = document.querySelectorAll('.command-section');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // 给当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 显示或隐藏对应部分
+                    commandSections.forEach(section => {
+                        if (filter === 'all' || section.id === filter) {
+                            section.style.display = 'block';
+                            // 触发动画
+                            section.style.animation = 'fadeInUp 0.8s forwards';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                    
+                    // 如果是特定分类，滚动到该部分
+                    if (filter !== 'all') {
+                        const targetSection = document.getElementById(filter);
+                        if (targetSection) {
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 添加键盘快捷键：按ESC键回到顶部
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            // 添加卡片悬停效果
+            const infoCards = document.querySelectorAll('.command-section');
+            infoCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 为指令表格行添加悬停效果
+            const tableRows = document.querySelectorAll('.command-table tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8f9fa';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
