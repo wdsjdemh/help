@@ -2,1197 +2,1524 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>玩家守则 - DreamWorld Minecraft服务器</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Dream World —— 玩家指令手册</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* 使用现有网页的设计变量和样式 */
         :root {
-            --primary-color: #4CAF50;
-            --primary-dark: #388E3C;
-            --secondary-color: #2196F3;
-            --accent-color: #FF9800;
-            --dark-color: #2C3E50;
-            --light-color: #ECF0F1;
-            --danger-color: #E74C3C;
-            --warning-color: #F39C12;
-            --success-color: #27AE60;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
+            --primary: #10B981;
+            --primary-light: #D1FAE5;
+            --primary-dark: #059669;
+            --secondary: #8B5CF6;
+            --secondary-light: #EDE9FE;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-xs: 6px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWVlIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=');
-            overflow-x: hidden;
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
         }
-        
-        /* 导航栏样式 */
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-50);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 优化触摸体验 */
+        a, button, .rule-item, .nav-card {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+            tap-highlight-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* 头部样式 - 移动端优化 */
         header {
-            background-color: var(--dark-color);
-            box-shadow: var(--shadow);
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.98);
+            height: 60px;
+            border-bottom: 1px solid var(--gray-200);
         }
-        
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 1rem 0;
-            flex-wrap: wrap;
-        }
-        
-        nav ul li {
-            margin: 0 1rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        nav ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        nav ul li a i {
-            font-size: 1.2rem;
-        }
-        
-        /* 当前页面激活状态 */
-        nav ul li a.active {
-            background-color: var(--primary-color);
-        }
-        
-        /* 主内容区域 */
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-        }
-        
-        .main-title {
-            text-align: center;
-            color: var(--dark-color);
-            margin-bottom: 1.5rem;
-            font-size: 3.2rem;
-            position: relative;
-            padding-bottom: 1rem;
-            animation: fadeInDown 1s ease-out;
-        }
-        
-        .main-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
-        }
-        
-        .subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 3rem;
-            color: #555;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-            animation: fadeIn 1.5s ease-out;
-        }
-        
-        /* 指令分类筛选器 */
-        .plugin-filter {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .filter-btn {
-            background-color: white;
-            border: 2px solid var(--primary-color);
-            color: var(--dark-color);
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .filter-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        .filter-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        /* 指令分类卡片 */
-        .command-section {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards;
-            text-align: left;
-        }
-        
-        .command-section:nth-child(1) { animation-delay: 0.1s; }
-        .command-section:nth-child(2) { animation-delay: 0.2s; }
-        .command-section:nth-child(3) { animation-delay: 0.3s; }
-        .command-section:nth-child(4) { animation-delay: 0.4s; }
-        .command-section:nth-child(5) { animation-delay: 0.5s; }
-        .command-section:nth-child(6) { animation-delay: 0.6s; }
-        
-        .command-section:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .section-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            margin-right: 1rem;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-        }
-        
-        .section-subtitle {
-            color: #666;
-            font-size: 1rem;
-            margin-top: 0.3rem;
-        }
-        
-        /* 指令表格样式 */
-        .command-table {
+
+        .container {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
         }
-        
-        .command-table th {
-            background-color: #f8f9fa;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark-color);
-            border-bottom: 2px solid #e9ecef;
+
+        /* 移动端优化容器内边距 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 12px;
+            }
         }
-        
-        .command-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #e9ecef;
-            vertical-align: top;
-        }
-        
-        .command-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .command-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .command-name {
-            font-family: 'Courier New', monospace;
-            color: var(--secondary-color);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .command-aliases {
-            color: #666;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-        
-        .command-desc {
-            color: #555;
-        }
-        
-        .command-usage {
-            font-family: 'Courier New', monospace;
-            background-color: #f8f9fa;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: #444;
-        }
-        
-        .param {
-            color: var(--danger-color);
-            font-weight: 500;
-        }
-        
-        .optional {
-            color: var(--warning-color);
-        }
-        
-        /* 权限表样式 */
-        .permissions-table {
-            margin-top: 2rem;
-        }
-        
-        .permission-category {
-            font-weight: bold;
-            color: var(--primary-dark);
-            margin-top: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .permission-item {
+
+        .header-container {
             display: flex;
             justify-content: space-between;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            height: 100%;
         }
-        
-        .permission-name {
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .permission-desc {
-            color: #666;
-            text-align: right;
-        }
-        
-        /* 提示框 */
-        .note-box {
-            background-color: #f9f9f9;
-            border-left: 4px solid var(--secondary-color);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        
-        .note-title {
+
+        .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--gray-900);
+            min-width: 0; /* 防止logo溢出 */
         }
-        
-        .note-content {
-            color: #555;
-            line-height: 1.6;
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1rem;
+            flex-shrink: 0;
         }
-        
-        /* 页脚样式 */
-        footer {
-            background-color: var(--dark-color);
-            color: white;
+
+        .logo-text {
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .logo-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: var(--gray-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 桌面端导航 */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+        }
+
+        nav a {
+            color: var(--gray-700);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: var(--radius-xs);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background-color: var(--gray-100);
+            color: var(--primary);
+        }
+
+        nav a.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* 移动端菜单按钮 */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray-700);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-xs);
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-toggle:hover, .mobile-menu-toggle:active {
+            background-color: var(--gray-100);
+        }
+
+        /* 主要内容样式 - 移动端优化 */
+        main {
+            flex: 1;
+            padding: 40px 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 32px 0;
+            }
+        }
+
+        /* 页面标题 */
+        .page-header {
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding: 0 8px;
         }
-        
-        .footer-content {
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--gray-600);
             max-width: 800px;
             margin: 0 auto;
+            line-height: 1.6;
         }
-        
-        .footer-links {
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* 规则分类导航 - 移动端优化 */
+        .rules-nav {
+            position: sticky;
+            top: 68px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            z-index: 50;
+            border: 1px solid var(--gray-200);
+        }
+
+        .rules-nav ul {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            list-style: none;
+            gap: 6px;
+            justify-content: flex-start;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 4px;
         }
-        
-        .footer-links a {
-            color: white;
+
+        .rules-nav ul::-webkit-scrollbar {
+            display: none;
+        }
+
+        .rules-nav li {
+            flex-shrink: 0;
+        }
+
+        .rules-nav a {
+            color: var(--gray-700);
             text-decoration: none;
+            padding: 10px 14px;
+            border-radius: var(--radius-xs);
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .rules-nav a:hover {
+            background-color: var(--gray-100);
+            color: var(--primary);
+        }
+
+        .rules-nav a.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* 规则内容区域 */
+        .rules-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .rule-category {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
             transition: var(--transition);
         }
-        
-        .footer-links a:hover {
-            color: var(--primary-color);
+
+        .rule-category:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
         }
-        
-        .update-info {
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .category-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .category-title h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .category-title p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* 规则列表 */
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rule-item {
+            padding: 18px;
+            border-radius: var(--radius-sm);
+            background-color: var(--gray-50);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .rule-item:hover {
+            background-color: var(--gray-100);
+        }
+
+        .rule-item.warning {
+            border-left-color: var(--warning);
+            background-color: var(--warning-light);
+        }
+
+        .rule-item.danger {
+            border-left-color: var(--danger);
+            background-color: var(--danger-light);
+        }
+
+        .rule-item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .rule-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .rule-title i {
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .rule-severity {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            white-space: nowrap;
+            flex-shrink: 0;
+            height: fit-content;
+        }
+
+        .rule-severity.warning {
+            background-color: var(--warning);
+        }
+
+        .rule-severity.danger {
+            background-color: var(--danger);
+        }
+
+        .rule-description {
+            color: var(--gray-700);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .rule-description ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .rule-description li {
+            margin-bottom: 8px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .rule-penalty {
+            margin-top: 14px;
+            padding: 12px;
+            background-color: var(--white);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
             font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 1rem;
         }
-        
-        /* 动画 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .rule-penalty strong {
+            color: var(--danger);
+            font-weight: 600;
         }
-        
-        @keyframes fadeInUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+
+        /* 重要提醒 */
+        .important-notice {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-top: 40px;
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
         }
-        
-        @keyframes fadeInDown {
-            from {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+
+        .important-notice::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100" stroke="%2310B981" stroke-width="1" opacity="0.1"/><path d="M100,0 L0,100" stroke="%2310B981" stroke-width="1" opacity="0.1"/></svg>');
+            opacity: 0.1;
+            z-index: 0;
         }
-        
-        /* 响应式设计 */
+
+        .important-notice-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .important-notice h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.3;
+        }
+
+        .important-notice h3 i {
+            color: var(--warning);
+        }
+
+        .important-notice p {
+            color: var(--gray-800);
+            margin-bottom: 14px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .important-notice ul {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+
+        .important-notice li {
+            margin-bottom: 8px;
+            color: var(--gray-800);
+            line-height: 1.5;
+        }
+
+        /* 页脚 - 移动端优化 */
+        footer {
+            background-color: var(--gray-900);
+            color: var(--gray-300);
+            padding: 48px 0 24px;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 36px;
+            margin-bottom: 36px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            padding: 4px 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-800);
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* 移动端优化样式 */
         @media (max-width: 768px) {
+            /* 头部优化 */
+            header {
+                height: 56px;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            /* 移动端导航菜单 */
+            nav {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                box-shadow: var(--shadow-md);
+                padding: 16px;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                z-index: 99;
+                max-height: calc(100vh - 56px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                border-top: 1px solid var(--gray-200);
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
             nav ul {
                 flex-direction: column;
-                align-items: center;
-            }
-            
-            nav ul li {
-                margin: 0.5rem 0;
+                gap: 8px;
                 width: 100%;
+            }
+            
+            nav li {
+                width: 100%;
+            }
+            
+            nav a {
+                justify-content: flex-start;
+                padding: 14px 16px;
+                width: 100%;
+                border-radius: var(--radius-sm);
+                font-size: 1rem;
+            }
+            
+            /* 页面标题优化 */
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+                padding: 0 4px;
+            }
+            
+            /* 规则导航优化 */
+            .rules-nav {
+                top: 64px;
+                padding: 10px;
+                margin-left: -12px;
+                margin-right: -12px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                position: sticky;
+            }
+            
+            .rules-nav ul {
+                padding-bottom: 6px;
+            }
+            
+            .rules-nav a {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            
+            /* 规则分类优化 */
+            .rule-category {
+                padding: 20px;
+                border-radius: var(--radius-sm);
+            }
+            
+            .category-header {
+                flex-direction: column;
                 text-align: center;
+                gap: 12px;
+                margin-bottom: 24px;
             }
             
-            nav ul li a {
-                justify-content: center;
-            }
-            
-            .main-title {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
+            .category-icon {
+                width: 48px;
+                height: 48px;
                 font-size: 1.2rem;
             }
             
-            .plugin-filter {
+            .category-title h2 {
+                font-size: 1.4rem;
+            }
+            
+            .category-title p {
+                font-size: 0.9rem;
+            }
+            
+            /* 规则项优化 */
+            .rule-item {
+                padding: 16px;
+            }
+            
+            .rule-item-header {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
+                gap: 10px;
             }
             
-            .filter-btn {
-                width: 100%;
-                justify-content: center;
+            .rule-title {
+                font-size: 1.05rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
             }
             
-            .command-table {
-                display: block;
-                overflow-x: auto;
+            .rule-severity {
+                align-self: flex-start;
             }
             
-            main {
-                padding: 1rem;
+            .rule-description {
+                font-size: 0.9rem;
             }
             
-            .command-section {
-                padding: 1.5rem;
+            .rule-description ul {
+                margin-left: 16px;
+            }
+            
+            .rule-penalty {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+            
+            /* 重要提醒优化 */
+            .important-notice {
+                padding: 22px;
+                margin-top: 32px;
+            }
+            
+            .important-notice h3 {
+                font-size: 1.3rem;
+            }
+            
+            .important-notice p {
+                font-size: 0.9rem;
+            }
+            
+            /* 页脚优化 */
+            footer {
+                padding: 40px 0 20px;
+                margin-top: 48px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            
+            .footer-section h3 {
+                font-size: 1.1rem;
+                margin-bottom: 16px;
+            }
+            
+            .footer-links a {
+                font-size: 0.85rem;
+            }
+            
+            .copyright {
+                font-size: 0.8rem;
+                padding-top: 20px;
             }
         }
-        
-        /* 滚动条样式 */
+
+        @media (max-width: 480px) {
+            /* 超小屏幕优化 */
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .page-header p {
+                font-size: 0.95rem;
+            }
+            
+            .rules-nav a {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .rule-category {
+                padding: 18px;
+            }
+            
+            .category-title h2 {
+                font-size: 1.3rem;
+            }
+            
+            .rule-item {
+                padding: 14px;
+            }
+            
+            .rule-title {
+                font-size: 1rem;
+            }
+            
+            .important-notice {
+                padding: 20px;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .rules-nav {
+                margin-left: -10px;
+                margin-right: -10px;
+            }
+        }
+
+        /* 防止文字过小 */
+        @media (max-width: 350px) {
+            html {
+                font-size: 15px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 滚动条样式优化 */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
+            height: 8px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* Minecraft主题装饰 */
-        .minecraft-block {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: var(--primary-color);
+            background: var(--gray-100);
             border-radius: 4px;
-            position: relative;
-            margin: 0 5px;
-            transform: rotate(45deg);
         }
-        
-        .minecraft-block::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 12px;
-            height: 12px;
-            background-color: var(--primary-dark);
-            border-radius: 2px;
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 4px;
         }
-        
-        /* 返回顶部按钮 */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-            opacity: 0;
-            visibility: hidden;
-            z-index: 999;
-            box-shadow: var(--shadow);
-        }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-5px);
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
         }
     </style>
 </head>
 <body>
+    <!-- 头部导航 -->
     <header>
-        <nav>
-            <ul>
-                <li><a href="https://www.dreamworld.eu.org"><i class="fas fa-home"></i> 主页</a></li>
-                <li><a href="https://rules.dreamworld.eu.org"><i class="fas fa-book"></i> 玩家守则</a></li>
-                <li><a href="https://help.dreamworld.eu.org"><i class="fas fa-tags"></i> 指令查询</a></li>
-                <li><a href="https://residence.dreamworld.eu.org"><i class="fas fa-map-marked-alt"></i> 公共领地</a></li>
-                <li><a href="https://opinfo.dreamworld.eu.org"><i class="fas fa-user-shield"></i> OP信息</a></li>
-            </ul>
-        </nav>
+        <div class="container header-container">
+            <a href="https://dreamworld.eu.org" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>DreamWorld</h1>
+                    <p>玩家守则</p>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="打开菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="https://dreamworld.eu.org"><i class="fas fa-home"></i> 主页</a></li>
+                    <li><a href="https://rules.dreamworld.eu.org" class="active"><i class="fas fa-scroll"></i> 玩家守则</a></li>
+                    <li><a href="https://help.dreamworld.eu.org"><i class="fas fa-question-circle"></i> 帮助与指令</a></li>
+                    <li><a href="https://banlist.dreamworld.eu.org"><i class="fas fa-gavel"></i> 封神榜</a></li>
+                    <li><a href="https://public.dreamworld.eu.org"><i class="fas fa-city"></i> 公共设施</a></li>
+                    <li><a href="https://download.dreamworld.eu.org"><i class="fas fa-download"></i> 下载中心</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    
-    <main>
-        <h1 class="main-title">玩家指令手册 <span class="minecraft-block"></span></h1>
-        
-        <p class="subtitle">本页面整理了Dream World服务器中玩家可使用的所有指令。按照插件分类，便于快速查找和学习。点击下方分类按钮可快速跳转到对应部分。</p>
-        
-        <div class="plugin-filter">
-            <button class="filter-btn active" data-filter="all"><i class="fas fa-list"></i> 全部指令</button>
-            <button class="filter-btn" data-filter="residence"><i class="fas fa-map-marked-alt"></i> 领地管理</button>
-            <button class="filter-btn" data-filter="essentials"><i class="fas fa-magic"></i> 基础功能</button>
-            <button class="filter-btn" data-filter="quickshop"><i class="fas fa-store"></i> 商店经济</button>
-            <button class="filter-btn" data-filter="multiverse"><i class="fas fa-globe"></i> 世界传送</button>
-            <button class="filter-btn" data-filter="authme"><i class="fas fa-user-lock"></i> 账户安全</button>
-            <button class="filter-btn" data-filter="coreprotect"><i class="fas fa-history"></i> 日志查询</button>
+
+    <!-- 主内容区域 -->
+    <main class="container">
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1>玩家守则</h1>
+            <p>为了维护 DreamWorld 生存服务器的良好游戏环境，请所有玩家仔细阅读并遵守以下规则。违规行为将受到相应处罚。</p>
         </div>
         
-        <!-- Residence 指令 -->
-        <section id="residence" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-map-marked-alt"></i>
-                </div>
-                <div>
-                    <h2 class="section-title">Residence - 领地管理</h2>
-                    <p class="section-subtitle">保护你的建筑和领地，管理权限与设置</p>
-                </div>
-            </div>
-            
-            <div class="note-box">
-                <div class="note-title">
-                    <i class="fas fa-info-circle"></i> 重要提示
-                </div>
-                <div class="note-content">
-                    领地是保护你建筑和财产的重要系统。使用木锄（默认工具）选择区域后，使用/res create创建领地。
-                    所有命令不写领地名时，默认为当前所在的领地。
-                </div>
-            </div>
-            
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="25%">指令</th>
-                        <th width="15%">参数</th>
-                        <th width="60%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/res select</td>
-                        <td>[x] [y] [z]</td>
-                        <td class="command-desc">选择领地区域，X Y Z是从当前位置为中心的距离</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res select chunk</td>
-                        <td></td>
-                        <td class="command-desc">选取一整个chunk区域</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res select expand</td>
-                        <td>[格数]</td>
-                        <td class="command-desc">向你的前方延伸选区</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res select vert</td>
-                        <td></td>
-                        <td class="command-desc">把选区延伸到从天顶到地底</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res create</td>
-                        <td>[领地名]</td>
-                        <td class="command-desc">选择好区域后创建一个叫做[领地名]的领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res remove</td>
-                        <td>[领地名]</td>
-                        <td class="command-desc">移除一个叫[领地名]的领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res subzone</td>
-                        <td>&lt;领地名&gt; [子区域名]</td>
-                        <td class="command-desc">在领地内创建一块子区域，你必须是所有者才行</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res info</td>
-                        <td>[领地名]</td>
-                        <td class="command-desc">得到某领地的信息</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res list</td>
-                        <td></td>
-                        <td class="command-desc">显示你拥有的领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res current</td>
-                        <td></td>
-                        <td class="command-desc">显示你所在的领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res set</td>
-                        <td>[领地名] [权限] [true/false/remove]</td>
-                        <td class="command-desc">设置某领地的权限</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res pset</td>
-                        <td>[领地名] [玩家名] [权限] [true/false/remove]</td>
-                        <td class="command-desc">设置某领地对于某玩家的权限</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res gset</td>
-                        <td>[领地名] [群组名] [权限] [true/false/remove]</td>
-                        <td class="command-desc">设置某领地对于某群组的权限</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res give</td>
-                        <td>[领地名] [玩家名]</td>
-                        <td class="command-desc">将某领地赠与某玩家，你必须是领主且被赠予玩家在线</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res message</td>
-                        <td>[领地名] [enter/leave] [信息]</td>
-                        <td class="command-desc">设置进入/退出某领地时候显示的信息</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res tp</td>
-                        <td>[领地名]</td>
-                        <td class="command-desc">传送至某领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res tpset</td>
-                        <td></td>
-                        <td class="command-desc">设置当前领地的传送点为你站立的地方</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res market list</td>
-                        <td></td>
-                        <td class="command-desc">显示在售的所有领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res market buy</td>
-                        <td>[领地名]</td>
-                        <td class="command-desc">购买某领地</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/res market sell</td>
-                        <td>[领地名] [价格]</td>
-                        <td class="command-desc">将某领地出售</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="note-box">
-                <div class="note-title">
-                    <i class="fas fa-lightbulb"></i> 常用权限说明
-                </div>
-                <div class="note-content">
-                    <strong>build</strong> - 建造权限(包括destroy和place) | 
-                    <strong>container</strong> - 是否能使用箱子，发射器等 | 
-                    <strong>use</strong> - 使用权限(工作台，炉子等) | 
-                    <strong>tp</strong> - 传送权限 | 
-                    <strong>move</strong> - 进入权限 | 
-                    <strong>pvp</strong> - 设置是否能PVP
-                </div>
-            </div>
-        </section>
+        <!-- 规则分类导航 -->
+        <div class="rules-nav">
+            <ul>
+                <li><a href="#basic-rules" class="active"><i class="fas fa-user-check"></i> 基本准则</a></li>
+                <li><a href="#gameplay-rules"><i class="fas fa-gamepad"></i> 游戏规则</a></li>
+                <li><a href="#building-rules"><i class="fas fa-cube"></i> 建筑规则</a></li>
+                <li><a href="#community-rules"><i class="fas fa-users"></i> 社区规则</a></li>
+                <li><a href="#trade-rules"><i class="fas fa-coins"></i> 交易规则</a></li>
+            </ul>
+        </div>
         
-        <!-- EssentialsX 指令 -->
-        <section id="essentials" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-magic"></i>
+        <!-- 规则内容 -->
+        <div class="rules-container">
+            <!-- 基本行为准则 -->
+            <section id="basic-rules" class="rule-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="category-title">
+                        <h2>基本行为准则</h2>
+                        <p>所有玩家必须遵守的基本规则</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="section-title">EssentialsX - 基础功能</h2>
-                    <p class="section-subtitle">玩家日常使用的传送、家园、经济等功能</p>
+                
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-shield-alt"></i>
+                                尊重所有玩家
+                            </h3>
+                            <span class="rule-severity">严重</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>禁止任何形式的侮辱、歧视、骚扰、人身攻击或其他不尊重行为。包括但不限于：</p>
+                            <ul>
+                                <li>基于种族、民族、宗教、性别、性取向、年龄或残疾的歧视性言论</li>
+                                <li>针对其他玩家的恶意辱骂、人身攻击或诽谤</li>
+                                <li>发布令人不适的内容，包括色情、暴力、恐怖主义相关内容</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告、禁言1-7天或永久封禁。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-ban"></i>
+                                禁止作弊与利用漏洞
+                            </h3>
+                            <span class="rule-severity danger">非常严重</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>禁止使用任何作弊客户端、模组、外挂或利用游戏漏洞获取不正当优势。包括但不限于：</p>
+                            <ul>
+                                <li>使用X-Ray材质包或模组进行矿物透视</li>
+                                <li>使用飞行、速度、自动点击等作弊功能</li>
+                                <li>利用游戏漏洞复制物品、刷取资源</li>
+                                <li>使用任何未经服务器允许的客户端模组</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 永久封禁，所有关联账号可能一并封禁。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item warning">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                禁止垃圾信息与刷屏
+                            </h3>
+                            <span class="rule-severity warning">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>禁止在聊天频道中发送垃圾信息、广告或刷屏，包括：</p>
+                            <ul>
+                                <li>重复发送相同或类似内容</li>
+                                <li>发送大量无意义字符或表情</li>
+                                <li>发布其他服务器广告或商业广告</li>
+                                <li>在错误频道讨论无关话题</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以禁言1-24小时。
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="25%">指令</th>
-                        <th width="15%">别名</th>
-                        <th width="60%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/home [家名称]</td>
-                        <td></td>
-                        <td class="command-desc">传送到你的家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/sethome [家名称]</td>
-                        <td></td>
-                        <td class="command-desc">设置你的家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/delhome [家名称]</td>
-                        <td></td>
-                        <td class="command-desc">删除你的家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/warp [传送点名称]</td>
-                        <td></td>
-                        <td class="command-desc">传送到公共传送点</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/tpa &lt;玩家名&gt;</td>
-                        <td></td>
-                        <td class="command-desc">请求传送到某玩家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/tpahere &lt;玩家名&gt;</td>
-                        <td></td>
-                        <td class="command-desc">请求某玩家传送到你</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/tpaccept</td>
-                        <td>/tpac</td>
-                        <td class="command-desc">接受传送请求</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/tpdeny</td>
-                        <td>/tpno</td>
-                        <td class="command-desc">拒绝传送请求</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/spawn</td>
-                        <td></td>
-                        <td class="command-desc">传送到主城出生点（还没有）</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/back</td>
-                        <td></td>
-                        <td class="command-desc">回到上一次死亡地点或传送地点</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/bal [玩家名]</td>
-                        <td>/balance, /money</td>
-                        <td class="command-desc">查看余额</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/pay &lt;玩家名&gt; &lt;金额&gt;</td>
-                        <td></td>
-                        <td class="command-desc">向玩家支付金额</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/msg &lt;玩家名&gt; &lt;信息&gt;</td>
-                        <td>/m, /tell, /whisper</td>
-                        <td class="command-desc">私聊某玩家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/r &lt;信息&gt;</td>
-                        <td>/reply</td>
-                        <td class="command-desc">回复最后私聊你的人</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/mail read</td>
-                        <td></td>
-                        <td class="command-desc">查看邮件</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/mail send &lt;玩家名&gt; &lt;信息&gt;</td>
-                        <td></td>
-                        <td class="command-desc">发送邮件</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/afk</td>
-                        <td></td>
-                        <td class="command-desc">标记自己为挂机状态</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/nick &lt;昵称&gt;</td>
-                        <td></td>
-                        <td class="command-desc">设置你的昵称</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/hat</td>
-                        <td></td>
-                        <td class="command-desc">将手中的物品戴在头上</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- QuickShop 指令 -->
-        <section id="quickshop" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-store"></i>
+            <!-- 游戏玩法规则 -->
+            <section id="gameplay-rules" class="rule-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="category-title">
+                        <h2>游戏玩法规则</h2>
+                        <p>关于游戏玩法的具体规则</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="section-title">QuickShop - 商店经济</h2>
-                    <p class="section-subtitle">创建和管理商店，进行物品交易</p>
+                
+                <div class="rules-list">
+                    <div class="rule-item danger">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-skull-crossbones"></i>
+                                禁止恶意破坏 (Griefing)
+                            </h3>
+                            <span class="rule-severity danger">非常严重</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>禁止任何形式的恶意破坏行为。包括但不限于：</p>
+                            <ul>
+                                <li>未经许可破坏、修改他人建筑或领地</li>
+                                <li>在他人领地内放置破坏性方块（如熔岩、水、TNT等）</li>
+                                <li>故意引怪到他人建筑或领地</li>
+                                <li>破坏公共设施或服务器建筑</li>
+                                <li>使用爆炸物（如床、重生锚）破坏环境</li>
+                            </ul>
+                            <p>注意：对于未设置领地保护的建筑，服务器不提供保护。建议所有玩家使用领地插件保护自己的建筑。</p>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 永久封禁，并尽可能恢复被破坏的建筑。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-gem"></i>
+                                资源采集规则
+                            </h3>
+                            <span class="rule-severity">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>关于资源采集的规则：</p>
+                            <ul>
+                                <li>禁止在出生点附近过度采集资源，影响新玩家体验</li>
+                                <li>公共矿洞中请勿堵塞通道或独占资源点</li>
+                                <li>采集他人农场资源时，请遵循"取一补一"原则（如农作物）</li>
+                                <li>禁止使用机器大规模破坏地形（如世界吞噬者）</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告、物品没收或临时封禁1-7天。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item warning">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-paw"></i>
+                                生物与刷怪规则
+                            </h3>
+                            <span class="rule-severity warning">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>关于生物和刷怪的规则：</p>
+                            <ul>
+                                <li>禁止建造对服务器性能有严重影响的刷怪装置</li>
+                                <li>请及时清理不必要的生物，避免造成服务器卡顿</li>
+                                <li>禁止利用刷怪塔漏洞获取超额经验或物品</li>
+                                <li>公共刷怪塔请勿长时间独占使用</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告或强制拆除违规装置。
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <div class="note-box">
-                <div class="note-title">
-                    <i class="fas fa-info-circle"></i> 如何创建商店
+            <!-- 建筑与领地规则 -->
+            <section id="building-rules" class="rule-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="category-title">
+                        <h2>建筑与领地规则</h2>
+                        <p>关于建筑和领地使用的规则</p>
+                    </div>
                 </div>
-                <div class="note-content">
-                    1. 将一个箱子放在地上<br>
-                    2. 手持你要售卖或收购的物品，左击箱子<br>
-                    3. 在聊天栏中输入物品的价格<br>
-                    4. 将物品放入箱子中
+                
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                                建筑间距要求
+                            </h3>
+                            <span class="rule-severity">一般</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>为了确保所有玩家有足够的建筑空间，请遵守以下间距要求：</p>
+                            <ul>
+                                <li>主世界建筑之间至少保持50格距离</li>
+                                <li>大型建筑或建筑群应与其他玩家建筑保持100格以上距离</li>
+                                <li>禁止在他人建筑视野范围内建造不协调建筑</li>
+                                <li>在资源世界（如地狱、末地）请尊重他人正在使用的区域</li>
+                            </ul>
+                            <p>如有争议，管理员将根据具体情况裁决。</p>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告或要求调整建筑位置。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item warning">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-landmark"></i>
+                                领地使用规则
+                            </h3>
+                            <span class="rule-severity warning">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>关于领地插件的使用规则：</p>
+                            <ul>
+                                <li>禁止滥用领地插件圈占过多土地（特别是资源丰富区域）</li>
+                                <li>长期不活跃玩家（超过3个月）的领地可能被回收</li>
+                                <li>公共区域（如出生点、主城）禁止设立私人领地</li>
+                                <li>领地命名应保持适当，禁止使用冒犯性名称</li>
+                                <li>请勿在领地内设置过于复杂的红石装置，以免影响服务器性能</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以领地重置、缩减或删除。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-dungeon"></i>
+                                地下建筑规则
+                            </h3>
+                            <span class="rule-severity">一般</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>关于地下建筑的规则：</p>
+                            <ul>
+                                <li>地下建筑同样需要申请领地保护</li>
+                                <li>挖掘地下结构时请注意不要破坏他人地下建筑</li>
+                                <li>大型地下工程应在地面设置明显标记，避免其他玩家误挖</li>
+                                <li>废弃矿洞改造时，请勿完全封锁原始矿洞通道</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告或要求修复破坏。
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="30%">指令</th>
-                        <th width="70%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/qs unlimited</td>
-                        <td class="command-desc">将鼠标准星所对的商店库存设置为"无限"</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs setowner &lt;player&gt;</td>
-                        <td class="command-desc">将商店的所有人改为指定玩家</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs buy</td>
-                        <td class="command-desc">将鼠标准星所对的商店转变为收购商店</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs sell</td>
-                        <td class="command-desc">将鼠标准星所对的商店转变为出售商店</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs price &lt;price&gt;</td>
-                        <td class="command-desc">将鼠标准星所对的商店的交易价格修改为指定值</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs clean</td>
-                        <td class="command-desc">将所有库存数量为0的商店移除</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/qs find &lt;item&gt;</td>
-                        <td class="command-desc">找到(最近的)交易指定物品的商店，例如 '/qs find dia' 将会找到最近的交易钻石的商店</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/shop</td>
-                        <td class="command-desc">/qs的指令别名</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- Multiverse-Core 指令 -->
-        <section id="multiverse" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-globe"></i>
+            <!-- 社区互动规则 -->
+            <section id="community-rules" class="rule-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="category-title">
+                        <h2>社区互动规则</h2>
+                        <p>玩家间互动与社区活动规则</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="section-title">Multiverse-Core - 世界传送</h2>
-                    <p class="section-subtitle">在不同世界间传送和移动</p>
+                
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-handshake"></i>
+                                玩家间纠纷处理
+                            </h3>
+                            <span class="rule-severity">一般</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>玩家间发生纠纷时应按以下流程处理：</p>
+                            <ul>
+                                <li>首先尝试与对方友好沟通解决问题</li>
+                                <li>如无法解决，可向在线管理员或OP求助</li>
+                                <li>禁止在公共频道争吵或煽动其他玩家参与纠纷</li>
+                                <li>禁止因个人纠纷对其他玩家进行报复行为</li>
+                                <li>提供证据时请使用截图或录屏，而非口述</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 在公共频道争吵可能被禁言，报复行为将受到额外处罚。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item warning">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-microphone-alt"></i>
+                                语音聊天规则
+                            </h3>
+                            <span class="rule-severity warning">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>使用服务器语音聊天时的规则：</p>
+                            <ul>
+                                <li>禁止在语音频道中播放嘈杂音乐或背景音</li>
+                                <li>避免长时间占用语音频道闲聊与游戏无关内容</li>
+                                <li>尊重其他玩家，避免在语音频道中争吵</li>
+                                <li>请使用适当的音量，避免影响他人体验</li>
+                                <li>如使用语音mod，请确保其不会影响服务器性能</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以语音权限限制或禁言。
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="30%">指令</th>
-                        <th width="70%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/mv spawn [世界名]</td>
-                        <td class="command-desc">回到这一个世界的出生点</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/mv list</td>
-                        <td class="command-desc">查看已有世界列表</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/mv info [世界名]</td>
-                        <td class="command-desc">查看该世界的信息</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/mv help</td>
-                        <td class="command-desc">查看帮助列表</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- AuthMe 指令 -->
-        <section id="authme" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-user-lock"></i>
+            <!-- 交易与经济规则 -->
+            <section id="trade-rules" class="rule-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="category-title">
+                        <h2>交易与经济规则</h2>
+                        <p>关于玩家间交易与经济系统的规则</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="section-title">AuthMe - 账户安全</h2>
-                    <p class="section-subtitle">账户注册、登录和安全相关指令</p>
+                
+                <div class="rules-list">
+                    <div class="rule-item danger">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-exclamation-circle"></i>
+                                禁止欺诈与不诚信交易
+                            </h3>
+                            <span class="rule-severity danger">非常严重</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>禁止任何形式的欺诈或不诚信交易行为。包括但不限于：</p>
+                            <ul>
+                                <li>交易时提供虚假物品描述或数量</li>
+                                <li>承诺交易后不履行承诺</li>
+                                <li>利用游戏漏洞或机制进行不公平交易</li>
+                                <li>设立虚假商店或交易点欺骗玩家</li>
+                                <li>使用第三方工具修改交易内容</li>
+                            </ul>
+                            <p>所有交易应基于诚信原则，交易前请确认物品和数量。</p>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以交易物品追回、经济处罚或永久封禁。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-store"></i>
+                                商店与市场规则
+                            </h3>
+                            <span class="rule-severity">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>在服务器市场或商店区域经营的规则：</p>
+                            <ul>
+                                <li>商店应明确标价，避免模糊定价</li>
+                                <li>禁止垄断某种资源并恶意抬高价格</li>
+                                <li>长期不经营的商店可能被管理员清理</li>
+                                <li>商店建筑应保持整洁，不影响市场区域美观</li>
+                                <li>使用服务器经济系统时请遵守相关插件规则</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 根据情节轻重，处以警告、商店关闭或经济处罚。
+                        </div>
+                    </div>
+                    
+                    <div class="rule-item warning">
+                        <div class="rule-item-header">
+                            <h3 class="rule-title">
+                                <i class="fas fa-gift"></i>
+                                礼物与赠予规则
+                            </h3>
+                            <span class="rule-severity warning">中等</span>
+                        </div>
+                        <div class="rule-description">
+                            <p>关于玩家间礼物赠送的规则：</p>
+                            <ul>
+                                <li>赠予贵重物品前请确认对方身份，避免误赠</li>
+                                <li>禁止以赠予为名进行违规物品转移</li>
+                                <li>赠予后如非欺诈情况，一般不提供追回服务</li>
+                                <li>管理员不参与玩家间的赠予纠纷，除非涉及欺诈</li>
+                            </ul>
+                        </div>
+                        <div class="rule-penalty">
+                            <strong>处罚:</strong> 利用赠予系统进行违规操作将受到相应处罚。
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
             
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="30%">指令</th>
-                        <th width="70%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/login &lt;password&gt;</td>
-                        <td class="command-desc">登录账户</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/register [password] [verifyPassword]</td>
-                        <td class="command-desc">注册账户</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/logout</td>
-                        <td class="command-desc">登出账户</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/changepassword &lt;oldPassword&gt; &lt;newPassword&gt;</td>
-                        <td class="command-desc">更改密码</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/unregister &lt;password&gt;</td>
-                        <td class="command-desc">解除账户注册</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/email show</td>
-                        <td class="command-desc">显示你当前的邮箱</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/email add &lt;email&gt; &lt;verifyEmail&gt;</td>
-                        <td class="command-desc">给你的账户添加一个新邮箱</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/email recover &lt;email&gt;</td>
-                        <td class="command-desc">重置你的账户，这将会向你的邮箱发送一封包含新密码的邮件</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/captcha &lt;captcha&gt;</td>
-                        <td class="command-desc">输入验证码完成验证</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        
-        <!-- CoreProtect 指令 -->
-        <section id="coreprotect" class="command-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-history"></i>
+            <!-- 重要提醒 -->
+            <div class="important-notice">
+                <div class="important-notice-content">
+                    <h3><i class="fas fa-exclamation-triangle"></i> 重要提醒</h3>
+                    <p><strong>最终解释权:</strong> 服务器管理员对规则拥有最终解释权，并有权根据实际情况对规则进行修改或补充。</p>
+                    <p><strong>规则更新:</strong> 本守则可能不定期更新，请玩家定期查阅最新版本。规则更新后，旧版本自动失效。</p>
+                    <p><strong>处罚申诉:</strong> 如对处罚有异议，可在封禁后7天内通过邮箱 mcworld@dreamworld.eu.org 申诉，需提供充分证据。</p>
+                    <p><strong>漏洞报告:</strong> 发现游戏漏洞或安全问题，请立即向管理员报告。主动报告漏洞的玩家可能获得奖励，利用漏洞将受到严厉处罚。</p>
                 </div>
-                <div>
-                    <h2 class="section-title">CoreProtect - 日志查询</h2>
-                    <p class="section-subtitle">查询方块操作和玩家行为记录</p>
-                </div>
-            </div>
-            
-            <div class="note-box">
-                <div class="note-title">
-                    <i class="fas fa-info-circle"></i> 使用说明
-                </div>
-                <div class="note-content">
-                    CoreProtect记录服务器的所有方块操作和玩家行为。玩家可以查询自己的操作记录，管理员可以查询全服记录。
-                    常用参数：u:用户 t:时间 r:范围 a:动作类型 i:包含的方块 e:排除的方块
-                </div>
-            </div>
-            
-            <table class="command-table">
-                <thead>
-                    <tr>
-                        <th width="25%">指令</th>
-                        <th width="15%">别名</th>
-                        <th width="60%">描述</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="command-name">/co help</td>
-                        <td></td>
-                        <td class="command-desc">显示命令列表</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/co inspect</td>
-                        <td>/co i</td>
-                        <td class="command-desc">切换检查模式。开启后，点击方块或实体可快速查看其变更历史</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/co lookup</td>
-                        <td>/co l</td>
-                        <td class="command-desc">查询数据。根据参数查询方块、交互等历史记录</td>
-                    </tr>
-                    <tr>
-                        <td class="command-name">/co near</td>
-                        <td></td>
-                        <td class="command-desc">执行附近查询。相当于 /co lookup r:5，查询玩家周围5格内的历史记录</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="note-box">
-                <div class="note-title">
-                    <i class="fas fa-lightbulb"></i> 常用查询示例
-                </div>
-                <div class="note-content">
-                    <strong>/co lookup u:你的名字 t:1d</strong> - 查询你过去1天内的所有操作<br>
-                    <strong>/co lookup u:你的名字 a:block t:2h</strong> - 查询你过去2小时内所有方块操作<br>
-                    <strong>/co lookup i:diamond_ore a:-block t:6h</strong> - 查询过去6小时内被挖走的钻石矿记录<br>
-                    <strong>/co near</strong> - 查询你周围5格内的历史记录
-                </div>
-            </div>
-        </section>
-        
-        <div class="info-card" style="text-align: center; max-width: 800px; margin: 2rem auto;">
-            <div class="card-header" style="justify-content: center;">
-                <div class="card-icon">
-                    <i class="fas fa-exclamation-circle"></i>
-                </div>
-                <h3 class="card-title">使用提示</h3>
-            </div>
-            <div class="card-content">
-                <p>1. 大部分指令可以使用Tab键自动补全，节省输入时间</p>
-                <p>2. 指令中的<strong>&lt;参数&gt;</strong>表示必填参数，<strong>[参数]</strong>表示可选参数</p>
-                <p>3. 如果遇到指令无法使用的情况，可能是权限不足或指令格式错误</p>
-                <p>4. 建议将常用指令添加至快捷栏或记忆快捷键</p>
-                <p>5. 更多问题可联系管理员或在QQ群中询问</p>
             </div>
         </div>
     </main>
-    
+
+    <!-- 页脚 -->
     <footer>
-        <div class="footer-content">
-            <p>Dream World Minecraft 服务器管理组</p>
-            <div class="footer-links">
-                <a href="https://www.dreamworld.eu.org"><i class="fas fa-home"></i> 主页</a>
-                <a href="https://rules.dreamworld.eu.org"><i class="fas fa-book"></i> 玩家守则</a>
-                <a href="https://help.dreamworld.eu.org"><i class="fas fa-tags"></i> 指令查询</a>
-                <a href="https://residence.dreamworld.eu.org"><i class="fas fa-map-marked-alt"></i> 公共领地</a>
-                <a href="https://opinfo.dreamworld.eu.org"><i class="fas fa-user-shield"></i> OP信息</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DreamWorld 服务器</h3>
+                    <p style="color: var(--gray-400); margin-top: 12px;">一个友好、公平的Minecraft生存服务器，致力于为玩家提供最佳的游戏体验。</p>
+                    <p style="color: var(--gray-400); margin-top: 12px;">服务器管理员邮箱：mcworld@dreamworld.eu.org</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://dreamworld.eu.org"><i class="fas fa-chevron-right"></i> 主页</a></li>
+                        <li><a href="https://rules.dreamworld.eu.org"><i class="fas fa-chevron-right"></i> 玩家守则</a></li>
+                        <li><a href="https://help.dreamworld.eu.org"><i class="fas fa-chevron-right"></i> 帮助与指令</a></li>
+                        <li><a href="https://banlist.dreamworld.eu.org"><i class="fas fa-chevron-right"></i> 封神榜</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>连接信息</h3>
+                    <ul class="footer-links">
+                        <li><a><i class="fas fa-server"></i> <span style="font-family: 'JetBrains Mono', monospace; color: var(--gray-400);">play.simpfun.cn:30808</span></a></li>
+                        <li><a><i class="fas fa-code-branch"></i> JAVA 1.21.1</a></li>
+                        <li><a><i class="fas fa-plug"></i> JAVA版 & 基岩版</a></li>
+                        <li><a><i class="fas fa-exclamation-circle"></i> 背包不互通</a></li>
+                    </ul>
+                </div>
             </div>
-            <p class="update-info">
-                <i class="fas fa-clock"></i> 指令手册最后更新时间：2025.12.13 | 
-                <i class="fas fa-code"></i> 本页面持续更新中
-            </p>
+            
+            <div class="copyright">
+                <p>&copy; 2025-2026 DreamWorld Minecraft服务器 版权所有</p>
+                <p style="margin-top: 8px;">本服务器与Mojang Studios没有官方关联。Minecraft是Mojang Studios的商标。</p>
+                <p style="margin-top: 8px;">最后更新：2025年1月20日</p>
+            </div>
         </div>
     </footer>
-    
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-    
+
     <script>
-        // 页面加载完成后初始化
-        window.addEventListener("load", function() {
-            document.body.classList.add("loaded");
+        // 移动端菜单切换
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const nav = document.getElementById('mainNav');
+            const isActive = nav.classList.toggle('active');
             
-            // 为当前页面导航项添加活动状态
-            const navLinks = document.querySelectorAll('nav ul li a');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.href.includes('#') || link.innerText.includes('指令手册')) {
-                    link.classList.add('active');
+            // 切换图标
+            const icon = this.querySelector('i');
+            if (isActive) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                this.setAttribute('aria-label', '关闭菜单');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                this.setAttribute('aria-label', '打开菜单');
+            }
+            
+            // 防止滚动
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+        
+        // 点击导航链接时关闭移动菜单
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                const nav = document.getElementById('mainNav');
+                const toggleBtn = document.getElementById('mobileMenuToggle');
+                
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    toggleBtn.querySelector('i').classList.remove('fa-times');
+                    toggleBtn.querySelector('i').classList.add('fa-bars');
+                    toggleBtn.setAttribute('aria-label', '打开菜单');
+                    document.body.style.overflow = '';
                 }
             });
+        });
+        
+        // 规则分类导航滚动和点击处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.rules-nav a');
+            const sections = document.querySelectorAll('.rule-category');
             
-            // 分类筛选功能
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const commandSections = document.querySelectorAll('.command-section');
+            // 移除所有active类
+            function removeActiveClasses() {
+                navLinks.forEach(link => link.classList.remove('active'));
+            }
             
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有按钮的active类
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // 给当前点击的按钮添加active类
-                    this.classList.add('active');
+            // 监听滚动，高亮当前可见部分
+            function highlightVisibleSection() {
+                let currentSection = '';
+                const scrollPosition = window.scrollY + 120; // 偏移量，使导航更灵敏
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
                     
-                    const filter = this.getAttribute('data-filter');
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                // 更新导航链接
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // 如果没有高亮部分，默认高亮第一个
+                if (!currentSection && navLinks.length > 0) {
+                    navLinks[0].classList.add('active');
+                }
+            }
+            
+            // 点击导航链接平滑滚动
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
                     
-                    // 显示或隐藏对应部分
-                    commandSections.forEach(section => {
-                        if (filter === 'all' || section.id === filter) {
-                            section.style.display = 'block';
-                            // 触发动画
-                            section.style.animation = 'fadeInUp 0.8s forwards';
-                        } else {
-                            section.style.display = 'none';
-                        }
-                    });
-                    
-                    // 如果是特定分类，滚动到该部分
-                    if (filter !== 'all') {
-                        const targetSection = document.getElementById(filter);
-                        if (targetSection) {
-                            window.scrollTo({
-                                top: targetSection.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
+                    if (targetSection) {
+                        // 更新active状态
+                        removeActiveClasses();
+                        this.classList.add('active');
+                        
+                        // 平滑滚动到目标
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
             
-            // 返回顶部按钮
-            const backToTopBtn = document.getElementById('backToTop');
+            // 监听滚动事件
+            window.addEventListener('scroll', highlightVisibleSection, { passive: true });
             
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.add('visible');
+            // 初始高亮
+            setTimeout(highlightVisibleSection, 100);
+            
+            // 当前页面高亮
+            const mainNavLinks = document.querySelectorAll('nav a');
+            const currentPage = window.location.href;
+            mainNavLinks.forEach(link => {
+                if (link.href === currentPage) {
+                    link.classList.add('active');
                 } else {
-                    backToTopBtn.classList.remove('visible');
+                    link.classList.remove('active');
                 }
             });
             
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
+            // 移动端触摸优化
+            let touchStartY = 0;
             
-            // 添加键盘快捷键：按ESC键回到顶部
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
+            document.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            // 防止在滚动时意外点击
+            document.addEventListener('touchmove', function(e) {
+                // 添加一些触摸反馈
+                if (Math.abs(e.touches[0].clientY - touchStartY) > 10) {
+                    // 用户正在滚动，可以添加视觉反馈
                 }
-            });
+            }, { passive: true });
             
-            // 添加卡片悬停效果
-            const infoCards = document.querySelectorAll('.command-section');
-            infoCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px)';
+            // 移动端加载优化
+            if ('loading' in HTMLImageElement.prototype) {
+                // 浏览器支持原生懒加载
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    img.loading = 'lazy';
                 });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // 为指令表格行添加悬停效果
-            const tableRows = document.querySelectorAll('.command-table tr');
-            tableRows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    this.style.backgroundColor = '#f8f9fa';
-                });
-                
-                row.addEventListener('mouseleave', function() {
-                    this.style.backgroundColor = '';
-                });
-            });
+            }
         });
+        
+        // 修复移动端视口缩放问题
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
